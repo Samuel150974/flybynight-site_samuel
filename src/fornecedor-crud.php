@@ -8,14 +8,11 @@
 require_once "conecta.php";
 
 // Usada em fornecedores/listar.php
-function buscarfornecedores(PDO $conexao): array {
-
+function buscarFornecedores($conexao){
          // Montando o comando SQL para a consulta   
-         $sql = "SELECT * FROM forncedores ORDER BY nome";
-        
+         $sql = "SELECT * FROM fornecedores ORDER BY nome";
 
          // Executando o comando e guardando o resultado da consulta
-
         $consulta = $conexao->query($sql);
 
         // Retornando o resultado como um array associativo
@@ -23,6 +20,3 @@ function buscarfornecedores(PDO $conexao): array {
         return $consulta->fetchAll();
 }
 
-
-
-?>
