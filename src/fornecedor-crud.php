@@ -8,11 +8,12 @@
 require_once "conecta.php";
 
 // Usada em fornecedores/listar.php
-function buscarFornecedores($conexao){
-         // Montando o comando SQL para a consulta   
-         $sql = "SELECT * FROM fornecedores ORDER BY nome";
+function buscarFornecedores($conexao)
+{
+        // Montando o comando SQL para a consulta   
+        $sql = "SELECT * FROM fornecedores ORDER BY nome";
 
-         // Executando o comando e guardando o resultado da consulta
+        // Executando o comando e guardando o resultado da consulta
         $consulta = $conexao->query($sql);
 
         // Retornando o resultado como um array associativo
@@ -22,25 +23,51 @@ function buscarFornecedores($conexao){
 
 
 // Usada em fornecedores/inserir.php
-function inserirFornecedor(PDO $conexao, string $nome):void {
+function inserirFornecedor(PDO $conexao, string $nome): void
+{
 
-/* Sobre o recebimento de dados para o comando SQL no PDO, 
+        /* Sobre o recebimento de dados para o comando SQL no PDO, 
 visando minimizar a chance de injeção de código SQL
 nocivo à partir de entradas de dados (no caso, formulário),
 devemos passar no comando SQL "parâmetros nomeados" (Named Parameters).
 Esse tipo de prática permite receber de forma segura/controlada 
 os dados para a consulta. NUNCA passe os dados de forma direta */
-  
-// Passo 1: definir os parâmetros nomeados
-$sql = " INSERT INTO fornecedores (nome) VALUES(:nome)";
 
-// Passo 2: preparar o comando para execução
-$consulta = $conexao->prepare($sql);
+        // Passo 1: definir os parâmetros nomeados
+        $sql = " INSERT INTO fornecedores (nome) VALUES(:nome)";
 
-// Passo 3: vincular o valor ao parâmetro nomeado
-$consulta->bindValue(":nome", $nome);
+        // Passo 2: preparar o comando para execução
+        $consulta = $conexao->prepare($sql);
 
-// Passo 4: executar a consulta/comando no banco
-$consulta->execute();
-             
+        // Passo 3: vincular o valor ao parâmetro nomeado
+        $consulta->bindValue(":nome", $nome);
+
+        // Passo 4: executar a consulta/comando no banco
+        $consulta->execute();
+}
+
+
+// Usada em fornecedores/editar.php
+
+function buscarFornecedorPorId(PDO $conexao, int $id)
+{
+        // Comando SQL (ateção ao usado de parâmetro nomeado)
+        $sql = "SELECT * FROM fornecedores WHERE id = :id";
+
+        // Preparação da consulta
+
+        $consulta = $conexao->prepare($sql);
+
+        // Atribuição do valor recebido (em $id) ao parâmetro nomeado (:id)
+
+        $consulta->bindValue(":id", $id);
+
+        // Execução da consulta
+
+        $consulta->execute();
+
+        // Retorno dos dados como array associativo
+        // ATENÇÃO: aqui usamos fetch() por se tratar de UM ÚNICO array (vetor)
+
+        return $consulta->fetch();
 }

@@ -245,7 +245,7 @@ td {
 td:last-child {
   white-space: nowrap;
 }
-
+td a {text-decoration: none; }
 td a {
   display: inline-block;
   padding: 8px 0;

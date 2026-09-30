@@ -1,3 +1,18 @@
+<?php 
+// fornecedores/editar.php
+require_once "../src/fornecedor-crud.php";
+// Acessar a URL e "pegar" o valor do parâmetro (id) existente nela
+$id = $_GET['id'];
+
+// Chamamos a função e passamos o id para ela
+// 2 Ao término, a função DEVOLVE (retorna) um array com os dados do Fornecedor
+
+$fornecedor = buscarFornecedorPorId($conexao, $id);
+
+ var_dump($fornecedor);
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
