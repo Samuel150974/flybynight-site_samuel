@@ -8,7 +8,7 @@
 require_once "conecta.php";
 
 // Usada em fornecedores/listar.php
-function buscarFornecedores($conexao)
+function buscarFornecedores(PDO $conexao)
 {
         // Montando o comando SQL para a consulta   
         $sql = "SELECT * FROM fornecedores ORDER BY nome";
@@ -97,11 +97,10 @@ function atualizarFornecedor(PDO $conexao, int $id, string $nome): void
 
 // Usada em fornecedores/excluir.php
 
-function excluirFornecedor(PDO $conexao, int $id):void
-{
+function excluirFornecedor(PDO $conexao, int $id) : void {
         $sql = "DELETE FROM fornecedores WHERE id = :id";
         $consulta = $conexao->prepare($sql);
-        $consulta->bindValue(":id", $id);
+        $consulta->bindValue(':id', $id);
         $consulta->execute();
 }
         
