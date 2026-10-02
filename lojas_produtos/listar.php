@@ -1,3 +1,17 @@
+<?php
+
+require_once "../src/produto-crud.php";
+
+$produtos = buscarProdutos($conexao);
+
+echo "<pre>";
+var_dump($produtos);
+echo "/pre";
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 

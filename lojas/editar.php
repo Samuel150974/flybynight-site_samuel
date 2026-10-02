@@ -1,3 +1,24 @@
+<?php 
+require_once "../src/loja-crud.php";
+
+$id = $_GET['id'];
+
+$loja = buscarLojaPorId($conexao, $id);
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+$nome = $_POST['nome'];
+
+    atualizarLoja($conexao, $id, $nome);
+
+    header("location:listar.php");
+
+    exit;
+} 
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -21,7 +42,7 @@
         <form action="" method="post">
             <div>
                 <label for="nome">Nome:</label>
-                <input type="text" name="nome" id="nome" maxlength="100" required>
+                <input value="<?= $loja['nome'] ?>" type="text" name="nome" id="nome" maxlength="100" required>
             </div>
             <button type="submit">Atualizar</button>
         </form>

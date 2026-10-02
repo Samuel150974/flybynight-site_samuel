@@ -8,3 +8,6 @@ excluirFornecedor($conexao, $id);
 header("location:listar.php");
 exit;
 ?>
+
+;
+?>
