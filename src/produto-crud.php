@@ -1,75 +1,84 @@
 <?php
 
 require_once "conecta.php";
+ 
+function buscarProdutos(PDO $conexao) : array {
+    $sql = "SELECT
+                produtos.id,
+                produtos.nome as nome_produto,
+                produtos.preco,
+                produtos.quantidade,
+                fornecedores.nome as nome_fornecedor
+            FROM produtos JOIN fornecedores
+            ON fornecedores.id = produtos.fornecedor_id
+            ORDER BY nome_produto";
+    $consulta = $conexao->query($sql);
+    return $consulta->fetchAll();
+}
+ 
+function inserirProduto(PDO $conexao,string $nome, string $descricao, float $preco, int $quantidade, int $fornecedorId):void
+{ $sql = "INSERT INTO produtos(nome, descricao, preco, quantidade, fornecedor_id)
+VALUES(:nome, :descricao, :preco, :quantidade, :fornecedor_id,)";
 
-function buscarProdutos(PDO $conexao):array
+$consulta = $conexao->prepare($sql);
+
+$consulta->bindValue(':nome', $nome);
+
+$consulta->bindValue(':decricao', $descricao);
+
+$consulta->bindValue(':preco', $preco);
+
+$consulta->bindValue(':quantidade', $quantidade);
+
+$consulta->bindValue(':fornecedor_id', $fornecedorId);
+
+$consulta->execute();
+}
+
+
+
+
+
+
+function buscarprodutoPorId(PDO $conexao, int $id)
+{
+  $sql = "SELECT * FROM produtos WHERE id= :id";
+
+  $consulta = $conexao->prepare($sql);
+
+  $consulta->bindValue(":id", $id);
+
+  $consulta->execute();
+
+  return $consulta->fetch();
+
+}
+
+ 
+function atualizarProduto(PDO $conexao, int $id, string $nome): void
 {
 
-$sql = "SELECT 
-         produtos.id, 
-         produtos.nome AS nome_produto, 
-         produtos.preco, 
-         produtos.quantidade, fornecedores.nome AS nome_fornecedor
-    FROM produtos JOIN fornecedores
-    ON fornecedores.id = produtos. fornecedor_id,
-     ORDER BY nome_produto";
+        // Comando SQL
+        $sql = "UPDATE produtos SET nome =:nome WHERE id= :id";
 
-    $consulta = $conexao->query($sql);
-    
-    return $consulta->fetchAll(); 
+        // Preparar comando SQL
+
+        $consulta = $conexao->prepare($sql);
+
+        // Atribuir valores aos campos
+        $consulta->bindValue(":nome", $nome);
+        $consulta->bindValue(":id", $id);
 
 
+        // Executar
 
-
-} 
-
-
-
+        $consulta->execute();
+        
+        
+        }
 
 
 
 
 
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-?>
+ 
