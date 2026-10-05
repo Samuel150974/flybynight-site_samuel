@@ -1,3 +1,29 @@
+<?php 
+
+require_once "../src/produto-crud.php";
+
+$id = $_GET['id'];
+
+$produtos = buscarprodutoPorId($conexao, $id);
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+$nome = $_POST['nome'];
+
+atualizarProduto($conexao, $id, $nome);
+
+header("location:listar.php");
+
+exit;
+
+}
+
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
