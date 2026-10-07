@@ -5,28 +5,42 @@ require_once "../src/produto-crud.php";
 
 $fornecedores = buscarFornecedores($conexao);
 
+// 1) Detectar o acionamento do formulário de inserção
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
+
+    // 2) Capturar os dados de cada campo do formulário
+    // Obs: atenção a qual é o nome de cada campo
+    
     $nome = $_POST['nome'];
     $descricao = $_POST['descricao'];
     $preco = $_POST['preco'];
     $quantidade = $_POST['quantidade'];
-    $fornecedorId = $_POST['fornecedor_id'];
-
-    inserirProduto($conexao, $nome, $descricao, $preco, $quantidade, $fornecedorId);
+    $fornecedor = $_POST['fornecedor'];
+    
+    // 3) Chamar a função de inserir e passar os dados para ela
+    
+    inserirProduto($conexao, $nome, $descricao, $preco, $quantidade, $fornecedor);
+    
+    // 4) Redirecionar para a página que mostra os produtos
+    
     header("location:listar.php");
+    exit;
+    
+    // 5) Cadastre pelo menos 4 produtos (aleatórios)
+    
+    
+    
 }
 
-exit;
 
-// 1) Detectar o acionamento do formulário de inserção
 
-// 2) Capturar os dados do formulário
 
-// 3) Chamar a função de inserir e passar os dados para ela
 
-// 4) Redirecionar para a página que mostra os produtos
 
-// 5) Cadastre pelo menos 4 produtos (aleatórios)
+
+
+
+
 
 ?>
 

@@ -1,21 +1,32 @@
-<?php 
+<?php
+// 1) Importar os arquivos de função de fornecedores e p
+require_once "../src/fornecedor-crud.php";
+
 
 require_once "../src/produto-crud.php";
 
+// 2) Capturar e guardar o id do produto que será carregado/atualizado
+
 $id = $_GET['id'];
 
-$produtos = buscarprodutoPorId($conexao, $id);
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-$nome = $_POST['nome'];
+// 3) Chamar a função buscarFornecedores e receber a lista de fornecedores (guarde em um variável chamada $fornecedores)
 
-atualizarProduto($conexao, $id, $nome);
+$fornecedores = buscarFornecedores($conexao);
 
-header("location:listar.php");
+// 4) Chamar a função buscarProdutoPorId e receber os dados do produto (guarde em uma variável chamada $produto)
 
-exit;
+$produto = buscarProdutoPorId($conexao, $id);
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+   $fornecedor = $_POST['fornecedor'];
+
+
+    header("location:listar.php");
+
+    exit;
 }
 
 
@@ -45,27 +56,48 @@ exit;
         <!-- Modelo visual: os campos não são enviados nem persistidos. -->
         <!-- Os campos serão preenchidos com os dados do registro selecionado. -->
         <form action="" method="post">
+
+            <input type="hidden" name="id" value="<?= $produto['id'] ?>">
+
             <div>
                 <label for="nome">Nome:</label>
-                <input type="text" name="nome" id="nome" maxlength="100" required>
+                <input value="<?= $produto['nome']  ?>" type="text" name="nome" id="nome" maxlength="100" required>
             </div>
+
             <div>
                 <label for="descricao">Descrição:</label>
-                <textarea name="descricao" id="descricao" rows="5"></textarea>
+                <textarea name="descricao" id="descricao" rows="5"><?= $produto['descricao'] ?></textarea>
             </div>
             <div>
                 <label for="preco">Preço:</label>
-                <input type="number" name="preco" id="preco" min="0" step="0.01" required>
+                <input value="<?= $produto['preco'] ?>" type="number" name="preco" id="preco" min="0" step="0.01" required>
             </div>
             <div>
                 <label for="quantidade">Quantidade:</label>
-                <input type="number" name="quantidade" id="quantidade" min="0" step="1" required>
+                <input value="<?= $produto['quantidade'] ?>" type="number" name="quantidade" id="quantidade" min="0" step="1" required>
             </div>
             <div>
                 <label for="fornecedor">Fornecedor:</label>
+
                 <select name="fornecedor" id="fornecedor" required>
-                    <option value="">Selecione</option>
-                    <!-- As opções serão preenchidas com os registros do banco de dados. -->
+                    <option value=" ">Selecione</option>
+
+
+
+                    <?php foreach ($fornecedores as $fornecedor): ?>
+
+                         <!--Se PK de fornecedor for igual á FK de produto, selecioneo fornecedor  -->
+
+                        <option 
+
+                        <?= $fornecedor["id"] === $produto["fornecedor_id"] ? 'selected' : '' ?>
+                        
+                        value="<?= $fornecedor['id'] ?>">
+                            <?= $fornecedor['nome'] ?>
+                        </option>
+
+                    <?php endforeach ?>
+
                 </select>
             </div>
             <button type="submit">Atualizar</button>
