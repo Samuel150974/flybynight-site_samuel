@@ -1,12 +1,12 @@
 <?php
 
-require_once "../src/";
+require_once "../src/loja_produto-crud.php";
 
-$produtos = buscarProdutos($conexao);
+$produtos = buscarLojasProdutos($conexao);
 
-echo "<pre>";
-var_dump($produtos);
-echo "/pre";
+// echo "<pre>";
+// var_dump($produtos);
+// echo "/pre";
 ?>
 
 
