@@ -8,11 +8,12 @@ function buscarLojasProdutos(PDO $conexao)
     $sql = "SELECT  
             lojas.id,
             lojas.nome as nome_loja,
-            lojas.estoque
+            produtos.quantidade,
+            produtos.nome as nome_produto
 
-     * FROM lojas JOIN produtos 
-       ON produtos.id = lojas.produtos_id 
-       ORDER BY loja_produto";
+       FROM produtos JOIN lojas 
+       ON lojas.id = produtos_nome
+       ORDER BY nome_lojas";
 
     $consulta = $conexao->query($sql);
     return $consulta->fetchAll();
