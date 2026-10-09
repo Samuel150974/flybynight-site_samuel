@@ -68,7 +68,11 @@ function atualizarProduto(
   float $preco,
   int $quantidade,
   int $fornecedorId
-): void {
+): void
+{
+
+
+
 
   // Comando SQL
   $sql = "UPDATE produtos SET 
@@ -84,11 +88,11 @@ function atualizarProduto(
   $consulta = $conexao->prepare($sql);
 
   // Atribuir valores aos campos
-  $consulta->bindValue(":nome", $nome);
-  $consulta->bindValue(":descricao", $descricao);
-  $consulta->bindValue(":preco", $preco);
-  $consulta->bindValue(":quantidade", $quantidade);
-  $consulta->bindValue(":id", $id);
+  $consulta->bindValue(':nome', $nome);
+  $consulta->bindValue(':descricao', $descricao);
+  $consulta->bindValue(':preco', $preco);
+  $consulta->bindValue(':quantidade', $quantidade);
+  $consulta->bindValue(':id', $id);
   $consulta->bindValue(':fornecedor_id', $fornecedorId);
 
 
@@ -97,7 +101,7 @@ function atualizarProduto(
   $consulta->execute();
 }
 
-function excluirProduto(PDO $conexao, int $id) :void
+function excluirProduto(PDO $conexao, int $id):void
 {
   $sql = "DELETE FROM produtos WHERE id = :id";
 

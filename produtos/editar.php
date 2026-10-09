@@ -1,40 +1,52 @@
 <?php
-// 1) Importar os arquivos de função de fornecedores e p
+// produtos/editar.php
+
+/* Exercícios */
+
+// PARTE 1
+
+// 1) Importar os arquivos de função de fornecedores e produtos
 require_once "../src/fornecedor-crud.php";
-
-
 require_once "../src/produto-crud.php";
 
 // 2) Capturar e guardar o id do produto que será carregado/atualizado
-
 $id = $_GET['id'];
 
-
-
 // 3) Chamar a função buscarFornecedores e receber a lista de fornecedores (guarde em um variável chamada $fornecedores)
-
 $fornecedores = buscarFornecedores($conexao);
 
 // 4) Chamar a função buscarProdutoPorId e receber os dados do produto (guarde em uma variável chamada $produto)
-
 $produto = buscarProdutoPorId($conexao, $id);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-   $fornecedor = $_POST['fornecedor'];
+// PARTE 2
 
+// 1) Detectar o acionamento do formulário de atualização
 
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    // 2) Capturar os dados do formulário
+    
+    $nome = $_POST['nome'];
+    $descricao = $_POST['descricao'];
+    $preco = $_POST['preco'];
+    $quantidade = $_POST['quantidade'];
+    $fornecedor_Id = $_POST['fornecedor'];
+    
+    
+    
+    // 3) Chamar a função atualizarProduto e passar os dados pra ela
+    
+    atualizarProduto($conexao, $id, $nome, $descricao, $preco, $quantidade, $fornecedor_Id);
+    
+    // 4) Redirecionar para a página listar produtos
+    
     header("location:listar.php");
-
     exit;
-}
 
+    }
 
-
-
+// 5) Testar: tente atualizar dados de pelo menos 3 produtos
 ?>
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -53,51 +65,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ?>
     <main>
         <h2>Editar produto</h2>
-        <!-- Modelo visual: os campos não são enviados nem persistidos. -->
-        <!-- Os campos serão preenchidos com os dados do registro selecionado. -->
+        
+        <!-- PARTE 1 -->
+        <!-- 5) Exibir os dados do produto em cada campo do formulário 
+        No caso dos campos input, use o atributo value.
+        No caso do campo textarea, coloque o valor dentro da tag. 
+        -->
         <form action="" method="post">
-
             <input type="hidden" name="id" value="<?= $produto['id'] ?>">
-
             <div>
                 <label for="nome">Nome:</label>
-                <input value="<?= $produto['nome']  ?>" type="text" name="nome" id="nome" maxlength="100" required>
+                <input value="<?= $produto['nome'] ?>"
+                type="text" name="nome" id="nome" maxlength="100" required >
             </div>
-
             <div>
                 <label for="descricao">Descrição:</label>
                 <textarea name="descricao" id="descricao" rows="5"><?= $produto['descricao'] ?></textarea>
             </div>
             <div>
                 <label for="preco">Preço:</label>
-                <input value="<?= $produto['preco'] ?>" type="number" name="preco" id="preco" min="0" step="0.01" required>
+                <input value="<?= $produto['preco'] ?>"
+                type="number" name="preco" id="preco" min="0" step="0.01" required>
             </div>
             <div>
                 <label for="quantidade">Quantidade:</label>
-                <input value="<?= $produto['quantidade'] ?>" type="number" name="quantidade" id="quantidade" min="0" step="1" required>
+                <input value="<?= $produto['quantidade'] ?>"
+                 type="number" name="quantidade" id="quantidade" min="0" step="1" required>
             </div>
             <div>
                 <label for="fornecedor">Fornecedor:</label>
-
                 <select name="fornecedor" id="fornecedor" required>
-                    <option value=" ">Selecione</option>
+                    <option value="">Selecione</option>
+                    
+                    <!-- PARTE 1 -->
+                    <!-- 6) DESAFIO 
+                    
+                    6.1) Usando foreach, acesse os $fornecedores
+                    e mostre na tag <option> os nomes de cada fornecedor.
+                    No atributo value, coloque o id de cada fornecedor.
 
-
-
-                    <?php foreach ($fornecedores as $fornecedor): ?>
-
-                         <!--Se PK de fornecedor for igual á FK de produto, selecioneo fornecedor  -->
-
+                    6.2) O fornecedor daquele produto que está sendo exibido,
+                    já DEVE VIR SELECIONADO. Programe os recursos para isso
+                    acontecer.  -->
+                    <?php foreach($fornecedores as $fornecedor): ?>
+                    <!-- A condicional abaixo (feita dentro da tag <option>)
+                    faz com que o fornecedor do produto que está sendo editado
+                    já venha selecionado. A lógica geral é:
+                    
+                        Se o id do fornecedor (que vem de $fornecedor['id']) for o mesmo
+                        do que está registrado no produto (que vem de $produto['fornecedor_id']),
+                        então aplique o atributo 'selected'. Caso contrário, não faça nada.
+                    -->
                         <option 
-
-                        <?= $fornecedor["id"] === $produto["fornecedor_id"] ? 'selected' : '' ?>
-                        
-                        value="<?= $fornecedor['id'] ?>">
-                            <?= $fornecedor['nome'] ?>
+                        <?= $fornecedor['id'] === $produto['fornecedor_id'] ? 'selected' : '' ?>
+                        value="<?= $fornecedor['id'] ?>"> 
+                            <?= $fornecedor['nome'] ?> 
                         </option>
-
                     <?php endforeach ?>
-
                 </select>
             </div>
             <button type="submit">Atualizar</button>
