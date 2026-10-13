@@ -4,9 +4,9 @@ require_once "../src/loja_produto-crud.php";
 
 $produtos = buscarLojasProdutos($conexao);
  
-echo "<pre>";
-var_dump($produtos);
-echo "/pre";
+// echo "<pre>";
+// var_dump($produtos);
+// echo "/pre";
 ?>
 
 

@@ -12,8 +12,8 @@ function buscarLojasProdutos(PDO $conexao)
             produtos.nome as nome_produto
 
        FROM produtos JOIN lojas 
-       ON lojas.id = produtos_nome
-       ORDER BY nome_lojas";
+       ON lojas.id = produtos.id
+       ORDER BY nome_loja";
 
     $consulta = $conexao->query($sql);
     return $consulta->fetchAll();
@@ -37,4 +37,8 @@ function inserirLojaProduto(PDO $conexao, string $lojaNome, string $produtoNome,
     $consulta->bindValue(':produto_id', $produtoId);
 
     $consulta->execute();
+}
+
+function buscarLojasProdutosPorId(PDO $conexao, int $id){
+    
 }
