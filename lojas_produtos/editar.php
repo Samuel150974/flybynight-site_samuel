@@ -1,4 +1,24 @@
 <?php
+require_once "../src/produto-crud.php";
+require_once "../src/loja-crud.php";
+require_once "../src/loja_produto-crud.php";
+
+$id = $_GET['id'];
+
+$lojas = buscarLojas($conexao);
+
+$produtos = buscarProdutos($conexao);
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $loja = $_POST['loja'];
+    $produto = $_POST['produto'];
+    $estoque = $_POST['estoque'];
+
+    atualizarProdutoLoja($conexao, $id, $loja, $produto, $estoque);
+    
+
+
+}
 
 
 ?>

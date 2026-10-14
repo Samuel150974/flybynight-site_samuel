@@ -18,11 +18,13 @@ function buscarProdutos(PDO $conexao): array
 }
 
 function inserirProduto(
-  PDO $conexao, string $nome,
-   string $descricao, float $preco,
-    int $quantidade, int $fornecedorId
-    ):void
-{
+  PDO $conexao,
+  string $nome,
+  string $descricao,
+  float $preco,
+  int $quantidade,
+  int $fornecedorId
+): void {
   $sql = "INSERT INTO produtos(nome, descricao, preco, quantidade, fornecedor_id)
 VALUES(:nome, :descricao, :preco, :quantidade, :fornecedor_id)";
 
@@ -68,8 +70,7 @@ function atualizarProduto(
   float $preco,
   int $quantidade,
   int $fornecedorId
-): void
-{
+): void {
 
 
 
@@ -101,13 +102,13 @@ function atualizarProduto(
   $consulta->execute();
 }
 
-function excluirProduto(PDO $conexao, int $id):void
+function excluirProduto(PDO $conexao, int $id): void
 {
   $sql = "DELETE FROM produtos WHERE id = :id";
 
   $consulta = $conexao->prepare($sql);
 
   $consulta->bindValue(":id", $id);
-  
+
   $consulta->execute();
 }
