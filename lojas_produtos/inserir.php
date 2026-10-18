@@ -5,15 +5,28 @@ require_once "../src/loja_produto-crud.php";
 
 $lojas = buscarLojas($conexao);
 $produtos = buscarProdutos($conexao);
+$erroCadastro = null;
 
-// echo "<pre>";
-// var_dump($lojas_produtos);
-// echo "/pre";
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    $loja_id = $_POST['loja'];
+    $produto_id = $_POST['produto'];
+    $estoque = $_POST['estoque'];
+
+    if (inserirLojaProduto($conexao, $loja_id, $produto_id, $estoque)) {
+        header("location:listar.php");
+        exit;
+    }
+
+    $erroCadastro = 'Este produto já está vinculado a esta loja. Escolha uma combinação diferente.';
+}?>
 
 
 
 
-?>
+
+
+
+
 
 
 
@@ -35,12 +48,15 @@ $produtos = buscarProdutos($conexao);
     ?>
     <main>
         <h2>Adicionar produto a uma loja</h2>
+        <?php if ($erroCadastro !== null): ?>
+            <p role="alert"><?= htmlspecialchars($erroCadastro, ENT_QUOTES, 'UTF-8') ?></p>
+        <?php endif; ?>
         <!-- Modelo visual: os campos não são enviados nem persistidos. -->
         <form action="" method="post">
 
             <div>
                 <label for="loja">Loja:</label>
-                <select name="lojaid" id="loja" required>
+                <select name="loja" id="loja" required>
                     <option value="">Selecione</option>
 
                  <?php foreach ($lojas as $loja): ?>
