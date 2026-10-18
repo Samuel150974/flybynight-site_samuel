@@ -1,19 +1,15 @@
-# Fly By Night: versão Front-End
+# Fly By Night
 
-Versão inicial do site/projeto de exemplo apenas com HTML e CSS. 
+Projeto PHP com páginas de cadastro e consulta conectadas ao banco MySQL `flybynight_completo`.
 
-As tabelas e os formulários estão sem dados de exemplo, com comentários indicando onde os dados dinâmicos serão inseridos. 
+## Configuração do banco
 
-Os botões dos formulários são apenas elementos visuais: não há persistência, conexão com banco, SQL e JavaScript na aplicação.
-
-O PHP permanece somente para reutilizar `componentes/cabecalho.php` e destacar a seção atual. Execute o servidor na raiz com:
+1. Inicie o servidor MySQL e importe `dump/flybynight_completo.sql` pelo phpMyAdmin ou pelo cliente MySQL.
+2. Confira as variáveis `$servidor`, `$banco`, `$usuario` e `$senha` em `src/conecta.php` e ajuste-as para seu ambiente. O PHP precisa ter a extensão `pdo_mysql` habilitada.
+3. Na raiz do projeto, inicie o servidor PHP:
 
 ```sh
-php -S localhost:PORTA
+php -S localhost:8000
 ```
 
-A porta pode ser 80 ou qualquer outra que não esteja em uso.
-
-Abra `http://localhost:PORTA` no navegador para visualizar o projeto.
-
-**Atenção:** neste projeto, vamos seguir utilizando o banco de dados flybynight criado nas aulas anteriores. Mas caso você não tenha este banco, na pasta **dump** deixei um arquivo de backup (**flybynight_completo**) que você pode importar em seu phpMyAdmin.
+Abra `http://localhost:8000` no navegador.
